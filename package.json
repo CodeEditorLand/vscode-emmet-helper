@@ -1,42 +1,52 @@
 {
-  "name": "@vscode/emmet-helper",
-  "version": "2.9.2",
-  "description": "Helper to use emmet modules in Visual Studio Code",
-  "main": "./lib/cjs/emmetHelper.js",
-  "module": "./lib/esm/emmetHelper.js",
-  "types": "./lib/cjs/emmetHelper.d.ts",
-  "author": "Microsoft Corporation",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Microsoft/vscode-emmet-helper"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Microsoft/vscode-emmet-helper"
-  },
-  "devDependencies": {
-    "@types/mocha": "10.0.6",
-    "@types/node": "20.11.30",
-    "@types/vscode": "1.87.0",
-    "mocha": "10.3.0",
-    "rimraf": "5.0.5",
-    "typescript": "5.4.2"
-  },
-  "dependencies": {
-    "emmet": "2.4.7",
-    "jsonc-parser": "3.2.1",
-    "vscode-languageserver-textdocument": "1.0.11",
-    "vscode-languageserver-types": "3.17.5",
-    "vscode-uri": "3.0.8"
-  },
-  "scripts": {
-    "prepublishOnly": "npm run clean && yarn && npm run compile && npm run compile-esm && npm run test",
-    "watch": "tsc -watch -p ./",
-    "compile": "tsc -p ./",
-    "clean": "rimraf lib",
-    "compile-esm": "tsc -p ./tsconfig.esm.json",
-    "test": "mocha lib/cjs/test",
-    "preversion": "npm test",
-    "postversion": "git push && git push --tags"
-  }
+	"name": "@vscode/emmet-helper",
+	"version": "0.0.1",
+	"private": false,
+	"description": "Helper to use emmet modules in Visual Studio Code",
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "Playform",
+		"email": "Hello@Playform.Cloud",
+		"url": "https://playform.cloud"
+	},
+	"type": "module",
+	"main": "./lib/cjs/emmetHelper.js",
+	"module": "./lib/esm/emmetHelper.js",
+	"types": "./lib/cjs/emmetHelper.d.ts",
+	"scripts": {
+		"clean": "rimraf lib",
+		"compile": "tsc -p ./",
+		"compile-esm": "tsc -p ./tsconfig.esm.json",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"preversion": "npm test",
+		"postversion": "git push && git push --tags",
+		"watch": "tsc -watch -p ./"
+	},
+	"dependencies": {
+		"emmet": "2.4.7",
+		"jsonc-parser": "3.2.1",
+		"vscode-languageserver-textdocument": "1.0.11",
+		"vscode-languageserver-types": "3.17.5",
+		"vscode-uri": "3.0.8"
+	},
+	"devDependencies": {
+		"@types/mocha": "10.0.6",
+		"@types/node": "20.11.30",
+		"@types/vscode": "1.87.0",
+		"mocha": "10.3.0",
+		"rimraf": "5.0.5",
+		"typescript": "5.4.2",
+		"typescript-esbuild": "latest"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
 }
