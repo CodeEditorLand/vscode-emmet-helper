@@ -1,34 +1,11 @@
 {
-	"name": "@vscode/emmet-helper",
-	"version": "0.0.1",
-	"private": false,
-	"description": "Helper to use emmet modules in Visual Studio Code",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
-	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
 	"author": {
-		"name": "Playform",
 		"email": "Hello@Playform.Cloud",
+		"name": "Playform",
 		"url": "https://playform.cloud"
 	},
-	"type": "module",
-	"main": "./lib/cjs/emmetHelper.js",
-	"module": "./lib/esm/emmetHelper.js",
-	"types": "./lib/cjs/emmetHelper.d.ts",
-	"scripts": {
-		"clean": "rimraf lib",
-		"compile": "tsc -p ./",
-		"compile-esm": "tsc -p ./tsconfig.esm.json",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"preversion": "npm test",
-		"postversion": "git push && git push --tags",
-		"watch": "tsc -watch -p ./"
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
 	},
 	"dependencies": {
 		"emmet": "2.4.7",
@@ -37,6 +14,7 @@
 		"vscode-languageserver-types": "3.17.5",
 		"vscode-uri": "3.0.8"
 	},
+	"description": "Helper to use emmet modules in Visual Studio Code",
 	"devDependencies": {
 		"@types/mocha": "10.0.6",
 		"@types/node": "20.11.30",
@@ -44,9 +22,31 @@
 		"mocha": "10.3.0",
 		"rimraf": "5.0.5",
 		"typescript": "5.4.2",
-		"typescript-esbuild": "0.4.5"
+		"typescript-esbuild": ""
 	},
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"license": "SEE LICENSE IN LICENSE",
+	"main": "./lib/cjs/emmetHelper.js",
+	"module": "./lib/esm/emmetHelper.js",
+	"name": "@vscode/emmet-helper",
+	"private": false,
 	"publishConfig": {
 		"access": "public"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"scripts": {
+		"clean": "rimraf lib",
+		"compile": "tsc -p ./",
+		"compile-esm": "tsc -p ./tsconfig.esm.json",
+		"postversion": "git push && git push --tags",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"preversion": "npm test",
+		"watch": "tsc -watch -p ./"
+	},
+	"type": "module",
+	"types": "./lib/cjs/emmetHelper.d.ts",
+	"version": "0.0.1"
 }
