@@ -3,48 +3,44 @@
 	"version": "0.0.1",
 	"private": false,
 	"description": "Helper to use emmet modules in Visual Studio Code",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"keywords": [
+		"land"
+	],
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandEmmetHelper#readme",
 	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandEmmetHelper/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+		"url": "git+HTTPS://github.com/CodeEditorLand/LandEmmetHelper.git"
 	},
 	"license": "SEE LICENSE IN LICENSE",
 	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
 	},
 	"type": "module",
 	"main": "./lib/cjs/emmetHelper.js",
 	"module": "./lib/esm/emmetHelper.js",
 	"types": "./lib/cjs/emmetHelper.d.ts",
 	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
 		"clean": "rimraf lib",
 		"compile": "tsc -p ./",
 		"compile-esm": "tsc -p ./tsconfig.esm.json",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"prepublishOnly": "Build 'Source/**/*.ts'",
 		"preversion": "npm test",
-		"postversion": "git push && git push --tags",
-		"watch": "tsc -watch -p ./"
+		"postversion": "git push && git push --tags"
 	},
 	"dependencies": {
-		"emmet": "2.4.7",
-		"jsonc-parser": "3.2.1",
-		"vscode-languageserver-textdocument": "1.0.11",
-		"vscode-languageserver-types": "3.17.5",
-		"vscode-uri": "3.0.8"
+		"jsonc-parser": "3.2.1"
 	},
 	"devDependencies": {
-		"@types/mocha": "10.0.6",
-		"@types/node": "20.11.30",
-		"@types/vscode": "1.87.0",
-		"mocha": "10.3.0",
-		"rimraf": "5.0.5",
-		"typescript": "5.4.2",
-		"typescript-esbuild": "0.4.5"
+		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6",
+		"@types/node": "20.12.7",
+		"rimraf": "5.0.5"
 	},
 	"publishConfig": {
 		"access": "public"
