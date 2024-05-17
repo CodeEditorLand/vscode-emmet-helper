@@ -1,26 +1,6 @@
 {
 	"name": "@vscode/emmet-helper",
-	"version": "0.0.1",
-	"private": false,
 	"description": "Helper to use emmet modules in Visual Studio Code",
-	"keywords": [
-		"land"
-	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandEmmetHelper#readme",
-	"bugs": {
-		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandEmmetHelper/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/LandEmmetHelper.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "🛬 Land —",
-		"email": "Land@PlayForm.Cloud",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
-	"type": "module",
 	"main": "./lib/cjs/emmetHelper.js",
 	"module": "./lib/esm/emmetHelper.js",
 	"types": "./lib/cjs/emmetHelper.d.ts",
@@ -38,11 +18,7 @@
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
-		"@playform/document": "0.0.6",
 		"@types/node": "20.12.10",
 		"rimraf": "5.0.5"
-	},
-	"publishConfig": {
-		"access": "public"
 	}
 }
