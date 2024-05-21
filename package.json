@@ -13,10 +13,10 @@
 		"postversion": "git push && git push --tags"
 	},
 	"dependencies": {
-		"jsonc-parser": "2.3.0"
+		"jsonc-parser": "3.2.1"
 	},
 	"devDependencies": {
-		"@types/node": "16.0.0",
-		"rimraf": "3.0.2"
+		"@types/node": "20.12.12",
+		"rimraf": "5.0.7"
 	}
 }
