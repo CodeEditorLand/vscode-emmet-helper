@@ -1,11 +1,11 @@
 {
 	"dependencies": {
-		"jsonc-parser": "^3.2.1"
+		"jsonc-parser": "3.2.1"
 	},
 	"description": "Helper to use emmet modules in Visual Studio Code",
 	"devDependencies": {
-		"@types/node": "^20.14.2",
-		"rimraf": "^5.0.7"
+		"@types/node": "20.14.2",
+		"rimraf": "5.0.7"
 	},
 	"main": "./lib/cjs/emmetHelper.js",
 	"module": "./lib/esm/emmetHelper.js",
