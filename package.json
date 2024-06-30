@@ -1,22 +1,22 @@
 {
-	"dependencies": {
-		"jsonc-parser": "3.3.1"
-	},
+	"name": "@vscode/emmet-helper",
 	"description": "Helper to use emmet modules in Visual Studio Code",
-	"devDependencies": {
-		"@types/node": "20.14.9",
-		"rimraf": "5.0.7"
-	},
 	"main": "./lib/cjs/emmetHelper.js",
 	"module": "./lib/esm/emmetHelper.js",
-	"name": "@vscode/emmet-helper",
+	"types": "./lib/cjs/emmetHelper.d.ts",
 	"scripts": {
 		"clean": "rimraf lib",
 		"compile": "tsc -p ./",
 		"compile-esm": "tsc -p ./tsconfig.esm.json",
-		"postversion": "git push && git push --tags",
 		"prepublishOnly": "npm run clean && yarn && npm run compile && npm run compile-esm && npm run test",
-		"preversion": "npm test"
+		"preversion": "npm test",
+		"postversion": "git push && git push --tags"
 	},
-	"types": "./lib/cjs/emmetHelper.d.ts"
+	"dependencies": {
+		"jsonc-parser": "3.3.1"
+	},
+	"devDependencies": {
+		"@types/node": "20.14.9",
+		"rimraf": "5.0.7"
+	}
 }
