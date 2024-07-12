@@ -1,6 +1,7 @@
-The MIT License (MIT)
+/*
+MIT License
 
-Copyright (c) Microsoft
+Copyright (c) 2020 Sergey Chikuyonok <serge.che@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +20,31 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+export interface SnippetsMap {
+    [name: string]: string;
+}
+
+/**
+ * Parses raw snippets definitions with possibly multiple keys into a plan
+ * snippet map
+ */
+export function parseSnippets(snippets: SnippetsMap): SnippetsMap {
+    const result: SnippetsMap = {};
+    Object.keys(snippets).forEach(k => {
+        for (const name of k.split('|')) {
+            result[name] = snippets[k];
+        }
+    });
+
+    return result;
+}
+
+/**
+ * List of all known syntaxes
+ */
+export const syntaxes = {
+    markup: ['html', 'xml', 'xsl', 'jsx', 'js', 'pug', 'slim', 'haml', 'vue'],
+    stylesheet: ['css', 'sass', 'scss', 'less', 'sss', 'stylus']
+};
