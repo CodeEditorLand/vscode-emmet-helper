@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { URI as Uri } from 'vscode-uri';
+import { URI as Uri } from "vscode-uri";
 
 export enum FileType {
 	/**
@@ -21,7 +21,7 @@ export enum FileType {
 	/**
 	 * A symbolic link to a file.
 	 */
-	SymbolicLink = 64
+	SymbolicLink = 64,
 }
 export interface FileStat {
 	/**
@@ -49,8 +49,8 @@ export interface FileService {
 }
 
 // following https://nodejs.org/api/path.html#path_path_isabsolute_path
-const PathMatchRegex = new RegExp('^(/|//|\\\\\\\\|[A-Za-z]:(/|\\\\))');
-const Dot = '.'.charCodeAt(0);
+const PathMatchRegex = new RegExp("^(/|//|\\\\\\\\|[A-Za-z]:(/|\\\\))");
+const Dot = ".".charCodeAt(0);
 
 export function isAbsolutePath(path: string) {
 	return PathMatchRegex.test(path);
@@ -58,7 +58,7 @@ export function isAbsolutePath(path: string) {
 
 export function resolvePath(uri: Uri, path: string): Uri {
 	if (isAbsolutePath(path)) {
-		return uri.with({ path: normalizePath(path.split('/')) });
+		return uri.with({ path: normalizePath(path.split("/")) });
 	}
 	return joinPath(uri, path);
 }
@@ -66,28 +66,35 @@ export function resolvePath(uri: Uri, path: string): Uri {
 export function normalizePath(parts: string[]): string {
 	const newParts: string[] = [];
 	for (const part of parts) {
-		if (part.length === 0 || part.length === 1 && part.charCodeAt(0) === Dot) {
+		if (
+			part.length === 0 ||
+			(part.length === 1 && part.charCodeAt(0) === Dot)
+		) {
 			// ignore
-		} else if (part.length === 2 && part.charCodeAt(0) === Dot && part.charCodeAt(1) === Dot) {
+		} else if (
+			part.length === 2 &&
+			part.charCodeAt(0) === Dot &&
+			part.charCodeAt(1) === Dot
+		) {
 			newParts.pop();
 		} else {
 			newParts.push(part);
 		}
 	}
 	if (parts.length > 1 && parts[parts.length - 1].length === 0) {
-		newParts.push('');
+		newParts.push("");
 	}
-	let res = newParts.join('/');
+	let res = newParts.join("/");
 	if (parts[0].length === 0) {
-		res = '/' + res;
+		res = "/" + res;
 	}
 	return res;
 }
 
 export function joinPath(uri: Uri, ...paths: string[]): Uri {
-	const parts = uri.path.split('/');
+	const parts = uri.path.split("/");
 	for (const path of paths) {
-		parts.push(...path.split('/'));
+		parts.push(...path.split("/"));
 	}
 	return uri.with({ path: normalizePath(parts) });
 }
