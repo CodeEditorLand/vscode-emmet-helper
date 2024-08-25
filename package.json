@@ -4,7 +4,7 @@
 	},
 	"description": "Helper to use emmet modules in Visual Studio Code",
 	"devDependencies": {
-		"@types/node": "22.4.0",
+		"@types/node": "22.5.0",
 		"rimraf": "6.0.1"
 	},
 	"main": "./lib/cjs/emmetHelper.js",
