@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 export interface SnippetsMap {
-	[name: string]: string;
+    [name: string]: string;
 }
 
 /**
@@ -31,20 +31,20 @@ export interface SnippetsMap {
  * snippet map
  */
 export function parseSnippets(snippets: SnippetsMap): SnippetsMap {
-	const result: SnippetsMap = {};
-	Object.keys(snippets).forEach((k) => {
-		for (const name of k.split("|")) {
-			result[name] = snippets[k];
-		}
-	});
+    const result: SnippetsMap = {};
+    Object.keys(snippets).forEach(k => {
+        for (const name of k.split('|')) {
+            result[name] = snippets[k];
+        }
+    });
 
-	return result;
+    return result;
 }
 
 /**
  * List of all known syntaxes
  */
 export const syntaxes = {
-	markup: ["html", "xml", "xsl", "jsx", "js", "pug", "slim", "haml", "vue"],
-	stylesheet: ["css", "sass", "scss", "less", "sss", "stylus"],
+    markup: ['html', 'xml', 'xsl', 'jsx', 'js', 'pug', 'slim', 'haml', 'vue'],
+    stylesheet: ['css', 'sass', 'scss', 'less', 'sss', 'stylus']
 };
