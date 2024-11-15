@@ -1,4 +1,0 @@
-{
-    "git.branchProtection": ["main"],
-    "git.branchRandomName.enable": true
-}
