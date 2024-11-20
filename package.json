@@ -9,9 +9,9 @@
 		"compile-esm": "tsc -p ./tsconfig.esm.json"
 	},
 	"dependencies": {
-		"jsonc-parser": "^3.3.1"
+		"jsonc-parser": "3.3.1"
 	},
 	"devDependencies": {
-		"@types/node": "^22.9.1"
+		"@types/node": "22.9.1"
 	}
 }
