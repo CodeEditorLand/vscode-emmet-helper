@@ -50,6 +50,7 @@ export interface FileService {
 
 // following https://nodejs.org/api/path.html#path_path_isabsolute_path
 const PathMatchRegex = new RegExp("^(/|//|\\\\\\\\|[A-Za-z]:(/|\\\\))");
+
 const Dot = ".".charCodeAt(0);
 
 export function isAbsolutePath(path: string) {
@@ -65,6 +66,7 @@ export function resolvePath(uri: Uri, path: string): Uri {
 
 export function normalizePath(parts: string[]): string {
 	const newParts: string[] = [];
+
 	for (const part of parts) {
 		if (
 			part.length === 0 ||
@@ -85,6 +87,7 @@ export function normalizePath(parts: string[]): string {
 		newParts.push("");
 	}
 	let res = newParts.join("/");
+
 	if (parts[0].length === 0) {
 		res = "/" + res;
 	}
@@ -93,6 +96,7 @@ export function normalizePath(parts: string[]): string {
 
 export function joinPath(uri: Uri, ...paths: string[]): Uri {
 	const parts = uri.path.split("/");
+
 	for (const path of paths) {
 		parts.push(...path.split("/"));
 	}
