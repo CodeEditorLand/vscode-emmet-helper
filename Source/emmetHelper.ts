@@ -90,12 +90,17 @@ const maxFilters = 3;
  */
 export interface VSCodeEmmetConfig {
 	showExpandedAbbreviation?: string;
+
 	showAbbreviationSuggestions?: boolean;
+
 	syntaxProfiles?: object;
 
 	variables?: object;
+
 	preferences?: object;
+
 	excludeLanguages?: string[];
+
 	showSuggestionsAsSnippets?: boolean;
 }
 
@@ -129,8 +134,10 @@ export function doComplete(
 				...getDefaultSnippets(syntax),
 				...customSnippetsRegistry[syntax],
 			};
+
 			snippetKeyCache.set(syntax, Object.keys(registry));
 		}
+
 		markupSnippetKeys = snippetKeyCache.get(syntax) ?? [];
 	}
 
@@ -148,6 +155,7 @@ export function doComplete(
 	if (!extractedValue) {
 		return;
 	}
+
 	const { abbreviationRange, abbreviation, filter } = extractedValue;
 
 	const currentLineTillPosition = getCurrentLine(document, position).substr(
@@ -203,15 +211,22 @@ export function doComplete(
 		}
 
 		expandedAbbr = CompletionItem.create(abbr);
+
 		expandedAbbr.textEdit = TextEdit.replace(
 			abbreviationRange,
 			escapeNonTabStopDollar(addFinalTabStop(expandedText)),
 		);
+
 		expandedAbbr.documentation = replaceTabStopsWithCursors(expandedText);
+
 		expandedAbbr.insertTextFormat = InsertTextFormat.Snippet;
+
 		expandedAbbr.detail = l10n.t("Emmet Abbreviation");
+
 		expandedAbbr.label = abbreviation;
+
 		expandedAbbr.label += filter ? "|" + filter.replace(",", "|") : "";
+
 		completionItems = [expandedAbbr];
 	};
 
@@ -231,9 +246,12 @@ export function doComplete(
 				abbreviationRange,
 				escapeNonTabStopDollar(addFinalTabStop(expandedText)),
 			);
+
 			expandedAbbr.documentation =
 				replaceTabStopsWithCursors(expandedText);
+
 			expandedAbbr.label = removeTabStops(expandedText);
+
 			expandedAbbr.filterText = abbreviation;
 
 			// Custom snippets should show up in completions if abbreviation is a prefix
@@ -241,6 +259,7 @@ export function doComplete(
 				stylesheetCustomSnippetsKeyCache.has(syntax)
 					? stylesheetCustomSnippetsKeyCache.get(syntax)
 					: stylesheetCustomSnippetsKeyCache.get("css");
+
 			completionItems = makeSnippetSuggestion(
 				stylesheetCustomSnippetsKeys ?? [],
 				abbreviation,
@@ -299,6 +318,7 @@ export function doComplete(
 				expandOptions,
 				"Emmet Abbreviation",
 			);
+
 			completionItems = completionItems.concat(
 				commonlyUsedTagSuggestions,
 			);
@@ -321,6 +341,7 @@ export function doComplete(
 				tagToFindMoreSuggestionsFor !== abbreviation
 			) {
 				expandedAbbr.sortText = "0" + expandedAbbr.label;
+
 				abbreviationSuggestions.forEach((item) => {
 					// Workaround for snippet suggestions items getting filtered out as the complete abbr does not start with snippetKey
 					item.filterText = abbreviation;
@@ -328,6 +349,7 @@ export function doComplete(
 					item.sortText = "9" + abbreviation;
 				});
 			}
+
 			completionItems = completionItems.concat(abbreviationSuggestions);
 		}
 
@@ -348,6 +370,7 @@ export function doComplete(
 	if (emmetConfig.showSuggestionsAsSnippets === true) {
 		completionItems.forEach((x) => (x.kind = CompletionItemKind.Snippet));
 	}
+
 	return completionItems.length
 		? CompletionList.create(completionItems, true)
 		: undefined;
@@ -368,7 +391,9 @@ function makeSnippetSuggestion(
 	if (!prefix || !snippetKeys) {
 		return [];
 	}
+
 	const snippetCompletions: CompletionItem[] = [];
+
 	snippetKeys.forEach((snippetKey) => {
 		if (
 			!snippetKey.startsWith(prefix.toLowerCase()) ||
@@ -384,6 +409,7 @@ function makeSnippetSuggestion(
 		try {
 			expandedAbbr = expand(currentAbbr, expandOptions);
 		} catch (e) {}
+
 		if (!expandedAbbr) {
 			return;
 		}
@@ -391,12 +417,16 @@ function makeSnippetSuggestion(
 		const item = CompletionItem.create(
 			prefix + snippetKey.substr(prefix.length),
 		);
+
 		item.documentation = replaceTabStopsWithCursors(expandedAbbr);
+
 		item.detail = snippetDetail;
+
 		item.textEdit = TextEdit.replace(
 			abbreviationRange,
 			escapeNonTabStopDollar(addFinalTabStop(expandedAbbr)),
 		);
+
 		item.insertTextFormat = InsertTextFormat.Snippet;
 
 		snippetCompletions.push(item);
@@ -437,6 +467,7 @@ function addFinalTabStop(text: string): string {
 	}
 
 	let maxTabStop = -1;
+
 	type TabStopRange = { numberStart: number; numberEnd: number };
 
 	let maxTabStopRanges: TabStopRange[] = [];
@@ -463,7 +494,9 @@ function addFinalTabStop(text: string): string {
 
 			while (i < n && /\d/.test(text[i])) {
 				numberStart = numberStart < 0 ? i : numberStart;
+
 				numberEnd = i + 1;
+
 				i++;
 			}
 
@@ -479,6 +512,7 @@ function addFinalTabStop(text: string): string {
 
 			// If ${0} was found, then break
 			const currentTabStop = text.substring(numberStart, numberEnd);
+
 			foundLastStop = currentTabStop === "0";
 
 			if (foundLastStop) {
@@ -495,6 +529,7 @@ function addFinalTabStop(text: string): string {
 
 						break;
 					}
+
 					i++;
 				}
 			}
@@ -502,7 +537,9 @@ function addFinalTabStop(text: string): string {
 			// Decide to replace currentTabStop with ${0} only if its the max among all tabstops and is not a placeholder
 			if (Number(currentTabStop) > Number(maxTabStop)) {
 				maxTabStop = Number(currentTabStop);
+
 				maxTabStopRanges = [{ numberStart, numberEnd }];
+
 				replaceWithLastStop = !foundPlaceholder;
 			} else if (Number(currentTabStop) === maxTabStop) {
 				maxTabStopRanges.push({ numberStart, numberEnd });
@@ -515,6 +552,7 @@ function addFinalTabStop(text: string): string {
 			const rangeStart = maxTabStopRanges[i].numberStart;
 
 			const rangeEnd = maxTabStopRanges[i].numberEnd;
+
 			text = text.substr(0, rangeStart) + "0" + text.substr(rangeEnd);
 		}
 	}
@@ -538,6 +576,7 @@ function getCurrentLine(document: TextDocument, position: Position): string {
 			break;
 		}
 	}
+
 	for (let i = offset; i < text.length; i++) {
 		if (text[i] === "\n") {
 			end = i;
@@ -545,6 +584,7 @@ function getCurrentLine(document: TextDocument, position: Position): string {
 			break;
 		}
 	}
+
 	return text.substring(start, end);
 }
 
@@ -594,11 +634,13 @@ function getFilters(
 	for (let i = 0; i < maxFilters; i++) {
 		if (text.endsWith(`${filterDelimitor}${bemFilterSuffix}`, pos)) {
 			pos -= bemFilterSuffix.length + 1;
+
 			filter = filter ? bemFilterSuffix + "," + filter : bemFilterSuffix;
 		} else if (
 			text.endsWith(`${filterDelimitor}${commentFilterSuffix}`, pos)
 		) {
 			pos -= commentFilterSuffix.length + 1;
+
 			filter = filter
 				? commentFilterSuffix + "," + filter
 				: commentFilterSuffix;
@@ -606,6 +648,7 @@ function getFilters(
 			text.endsWith(`${filterDelimitor}${trimFilterSuffix}`, pos)
 		) {
 			pos -= trimFilterSuffix.length + 1;
+
 			filter = filter
 				? trimFilterSuffix + "," + filter
 				: trimFilterSuffix;
@@ -613,6 +656,7 @@ function getFilters(
 			break;
 		}
 	}
+
 	return {
 		pos: pos,
 		filter: filter,
@@ -632,7 +676,9 @@ export function extractAbbreviation(
 ):
 	| {
 			abbreviation: string;
+
 			abbreviationRange: Range;
+
 			filter: string | undefined;
 	  }
 	| undefined {
@@ -652,6 +698,7 @@ export function extractAbbreviation(
 	if (!result) {
 		return;
 	}
+
 	const rangeToReplace = Range.create(
 		position.line,
 		result.location,
@@ -678,6 +725,7 @@ export function extractAbbreviationFromText(
 	if (!text) {
 		return;
 	}
+
 	const { pos, filter } = getFilters(text, text.length);
 
 	const extractOptions =
@@ -690,6 +738,7 @@ export function extractAbbreviationFromText(
 	if (!result) {
 		return;
 	}
+
 	return {
 		abbreviation: result.abbreviation,
 		filter,
@@ -709,6 +758,7 @@ export function isAbbreviationValid(
 	if (!abbreviation) {
 		return false;
 	}
+
 	if (isStyleSheet(syntax)) {
 		if (abbreviation.includes("#")) {
 			if (abbreviation.startsWith("#")) {
@@ -723,8 +773,10 @@ export function isAbbreviationValid(
 				return false;
 			}
 		}
+
 		return cssAbbreviationRegex.test(abbreviation);
 	}
+
 	if (abbreviation.startsWith("!")) {
 		return !/[^!]/.test(abbreviation);
 	}
@@ -778,6 +830,7 @@ function isExpandedTextNoise(
 			between[0],
 			Math.max(abbreviation.length - between.length, 0),
 		);
+
 		endPrefixIndex =
 			endPrefixIndex >= 0 ? endPrefixIndex : abbreviation.length;
 
@@ -838,6 +891,7 @@ function isExpandedTextNoise(
 		if (dotMatches[1] && htmlData.tags.includes(dotMatches[1])) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -858,12 +912,17 @@ function isExpandedTextNoise(
 
 type ExpandOptionsConfig = {
 	type: SyntaxType;
+
 	options: Partial<Options>;
 
 	variables: SnippetsMap;
+
 	snippets: SnippetsMap;
+
 	syntax: string;
+
 	text: string | string[] | undefined;
+
 	maxRepeat: number;
 };
 
@@ -876,6 +935,7 @@ export function getExpandOptions(
 	filter?: string,
 ): ExpandOptionsConfig {
 	emmetConfig = emmetConfig ?? {};
+
 	emmetConfig["preferences"] = emmetConfig["preferences"] ?? {};
 
 	const preferences: any = emmetConfig["preferences"];
@@ -1018,6 +1078,7 @@ export function getExpandOptions(
 				...profile["markup.attributes"],
 			};
 		}
+
 		if (profile["markup.valuePrefix"]) {
 			userPreferenceOptions["markup.valuePrefix"] = {
 				...defaultMarkupValuePrefixOptions,
@@ -1057,6 +1118,7 @@ export function getExpandOptions(
 		...Object.keys(userPreferenceOptions),
 	].forEach((key) => {
 		const castKey = key as keyof Options;
+
 		combinedOptions[castKey] =
 			userPreferenceOptions[castKey] ?? defaultVSCodeOptions[castKey];
 	});
@@ -1065,6 +1127,7 @@ export function getExpandOptions(
 		...defaultVSCodeOptions["stylesheet.unitAliases"],
 		...userPreferenceOptions["stylesheet.unitAliases"],
 	};
+
 	combinedOptions["stylesheet.unitAliases"] = mergedAliases;
 
 	const type = getSyntaxType(syntax);
@@ -1159,6 +1222,7 @@ export function expandAbbreviation(
 			);
 		}
 	}
+
 	return escapeNonTabStopDollar(addFinalTabStop(expandedText));
 }
 
@@ -1170,6 +1234,7 @@ function getProfile(syntax: string, profilesFromSettings: any): any {
 	if (!profilesFromSettings) {
 		profilesFromSettings = {};
 	}
+
 	const profilesConfig = Object.assign(
 		{},
 		profilesFromFile,
@@ -1184,8 +1249,10 @@ function getProfile(syntax: string, profilesFromSettings: any): any {
 				selfClosingStyle: "xhtml",
 			};
 		}
+
 		return {};
 	}
+
 	const newOptions: any = {};
 
 	for (const key in options) {
@@ -1230,11 +1297,13 @@ function getProfile(syntax: string, profilesFromSettings: any): any {
 
 					break;
 				}
+
 				if (options[key] === false) {
 					newOptions["selfClosingStyle"] = "html";
 
 					break;
 				}
+
 				newOptions["selfClosingStyle"] = options[key];
 
 				break;
@@ -1250,6 +1319,7 @@ function getProfile(syntax: string, profilesFromSettings: any): any {
 				break;
 		}
 	}
+
 	return newOptions;
 }
 
@@ -1260,6 +1330,7 @@ function getVariables(variablesFromSettings: object | undefined): SnippetsMap {
 	if (!variablesFromSettings) {
 		return variablesFromFile;
 	}
+
 	return Object.assign(
 		{},
 		variablesFromFile,
@@ -1296,10 +1367,12 @@ function getFormatters(syntax: string, preferences: any): any {
 					break;
 			}
 		}
+
 		return {
 			comment: commentFormatter,
 		};
 	}
+
 	let fuzzySearchMinScore =
 		typeof preferences?.["css.fuzzySearchMinScore"] === "number"
 			? preferences["css.fuzzySearchMinScore"]
@@ -1310,6 +1383,7 @@ function getFormatters(syntax: string, preferences: any): any {
 	} else if (fuzzySearchMinScore < 0) {
 		fuzzySearchMinScore = 0;
 	}
+
 	const stylesheetFormatter: any = {
 		"fuzzySearchMinScore": fuzzySearchMinScore,
 	};
@@ -1328,10 +1402,12 @@ function getFormatters(syntax: string, preferences: any): any {
 
 			case "css.unitAliases":
 				const unitAliases: any = {};
+
 				preferences[key].split(",").forEach((alias: string) => {
 					if (!alias || !alias.trim() || !alias.includes(":")) {
 						return;
 					}
+
 					const aliasName = alias.substr(0, alias.indexOf(":"));
 
 					const aliasValue = alias.substr(aliasName.length + 1);
@@ -1339,8 +1415,10 @@ function getFormatters(syntax: string, preferences: any): any {
 					if (!aliasName.trim() || !aliasValue) {
 						return;
 					}
+
 					unitAliases[aliasName.trim()] = aliasValue;
 				});
+
 				stylesheetFormatter["unitAliases"] = unitAliases;
 
 				break;
@@ -1359,6 +1437,7 @@ function getFormatters(syntax: string, preferences: any): any {
 				break;
 		}
 	}
+
 	return {
 		stylesheet: stylesheetFormatter,
 	};
@@ -1444,8 +1523,10 @@ export async function updateExtensionsPath(
 
 		try {
 			const snippetsData = await fs.readFile(snippetsPath);
+
 			snippetsDataStr = decoder.decode(snippetsData);
 		} catch (e) {}
+
 		if (snippetsDataStr.length) {
 			try {
 				const snippetsJson = tryParseFile(
@@ -1456,6 +1537,7 @@ export async function updateExtensionsPath(
 				if (snippetsJson["variables"]) {
 					updateVariables(snippetsJson["variables"]);
 				}
+
 				updateSnippets(snippetsJson);
 			} catch (e) {
 				resetSettingsFromFile();
@@ -1468,14 +1550,17 @@ export async function updateExtensionsPath(
 
 		try {
 			const profilesData = await fs.readFile(profilesPath);
+
 			profilesDataStr = decoder.decode(profilesData);
 		} catch (e) {}
+
 		if (profilesDataStr.length) {
 			try {
 				const profilesJson = tryParseFile(
 					profilesPath,
 					profilesDataStr,
 				);
+
 				updateProfiles(profilesJson);
 			} catch (e) {
 				resetSettingsFromFile();
@@ -1496,6 +1581,7 @@ function tryParseFile(strPath: URI, dataStr: string): any {
 			`Found error ${JSONC.printParseErrorCode(errors[0].error)} while parsing the file ${strPath} at offset ${errors[0].offset}`,
 		);
 	}
+
 	return json;
 }
 
@@ -1541,6 +1627,7 @@ function updateSnippets(snippetsJson: any) {
 			if (!snippetsJson[syntax]["snippets"]) {
 				return;
 			}
+
 			const baseSyntax = getDefaultSyntax(syntax);
 
 			let customSnippets = snippetsJson[syntax]["snippets"];
@@ -1556,6 +1643,7 @@ function updateSnippets(snippetsJson: any) {
 					snippetsJson[syntax]["snippets"],
 				);
 			}
+
 			if (!isStyleSheet(syntax)) {
 				// In Emmet 2.0 all snippets should be valid abbreviations
 				// Convert old snippets that do not follow this format to new format
@@ -1578,8 +1666,10 @@ function updateSnippets(snippetsJson: any) {
 					prevSnippetKeys,
 					Object.keys(customSnippets),
 				);
+
 				stylesheetCustomSnippetsKeyCache.set(syntax, mergedSnippetKeys);
 			}
+
 			const prevSnippetsRegistry = customSnippetsRegistry[syntax];
 
 			const newSnippets = parseSnippets(customSnippets);
@@ -1589,6 +1679,7 @@ function updateSnippets(snippetsJson: any) {
 				prevSnippetsRegistry,
 				newSnippets,
 			);
+
 			customSnippetsRegistry[syntax] = mergedSnippets;
 		});
 	} else {
@@ -1602,8 +1693,11 @@ function updateSnippets(snippetsJson: any) {
 
 function resetSettingsFromFile() {
 	customSnippetsRegistry = {};
+
 	snippetKeyCache.clear();
+
 	stylesheetCustomSnippetsKeyCache.clear();
+
 	profilesFromFile = {};
 
 	variablesFromFile = {};
@@ -1625,17 +1719,21 @@ export function getEmmetMode(
 	if (!language || excludedLanguages.includes(language)) {
 		return;
 	}
+
 	if (/\b(typescriptreact|javascriptreact|jsx-tags)\b/.test(language)) {
 		// treat tsx like jsx
 		return "jsx";
 	}
+
 	if (language === "sass-indented") {
 		// map sass-indented to sass
 		return "sass";
 	}
+
 	if (language === "jade") {
 		return "pug";
 	}
+
 	if (
 		syntaxes.markup.includes(language) ||
 		syntaxes.stylesheet.includes(language)

@@ -32,6 +32,7 @@ export interface SnippetsMap {
  */
 export function parseSnippets(snippets: SnippetsMap): SnippetsMap {
 	const result: SnippetsMap = {};
+
 	Object.keys(snippets).forEach((k) => {
 		for (const name of k.split("|")) {
 			result[name] = snippets[k];

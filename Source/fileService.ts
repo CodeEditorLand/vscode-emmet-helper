@@ -45,6 +45,7 @@ export interface FileStat {
 
 export interface FileService {
 	readFile(uri: Uri): Thenable<Uint8Array>;
+
 	stat(uri: Uri): Thenable<FileStat>;
 }
 
@@ -61,6 +62,7 @@ export function resolvePath(uri: Uri, path: string): Uri {
 	if (isAbsolutePath(path)) {
 		return uri.with({ path: normalizePath(path.split("/")) });
 	}
+
 	return joinPath(uri, path);
 }
 
@@ -83,14 +85,17 @@ export function normalizePath(parts: string[]): string {
 			newParts.push(part);
 		}
 	}
+
 	if (parts.length > 1 && parts[parts.length - 1].length === 0) {
 		newParts.push("");
 	}
+
 	let res = newParts.join("/");
 
 	if (parts[0].length === 0) {
 		res = "/" + res;
 	}
+
 	return res;
 }
 
@@ -100,5 +105,6 @@ export function joinPath(uri: Uri, ...paths: string[]): Uri {
 	for (const path of paths) {
 		parts.push(...path.split("/"));
 	}
+
 	return uri.with({ path: normalizePath(parts) });
 }
