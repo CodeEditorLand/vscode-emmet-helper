@@ -1,19 +1,19 @@
 {
+	"name": "@codeeditorland/emmet-helper",
+	"description": "Helper to use emmet modules in Visual Studio Code",
+	"main": "./lib/cjs/emmetHelper.js",
+	"module": "./lib/esm/emmetHelper.js",
+	"types": "./lib/cjs/emmetHelper.d.ts",
+	"scripts": {
+		"compile": "tsc -p ./",
+		"compile-esm": "tsc -p ./tsconfig.esm.json"
+	},
 	"dependencies": {
 		"@codeeditorland-emmet-helper": "0.0.1",
 		"@codeeditorland/emmet-helper": "0.0.1",
 		"jsonc-parser": "3.3.1"
 	},
-	"description": "Helper to use emmet modules in Visual Studio Code",
 	"devDependencies": {
 		"@types/node": "22.10.1"
-	},
-	"main": "./lib/cjs/emmetHelper.js",
-	"module": "./lib/esm/emmetHelper.js",
-	"name": "@codeeditorland/emmet-helper",
-	"scripts": {
-		"compile": "tsc -p ./",
-		"compile-esm": "tsc -p ./tsconfig.esm.json"
-	},
-	"types": "./lib/cjs/emmetHelper.d.ts"
+	}
 }
